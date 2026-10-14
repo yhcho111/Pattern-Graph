@@ -9,13 +9,14 @@ source("fns_DataAnalysis.R")
 
 data = read.csv("Myocardial infarction complications Database.csv") %>% 
   mutate(S_AD_KBRIG = ifelse(S_AD_KBRIG <= 90, 1, 0))%>%
-  mutate(DEAD = ifelse (LET_IS == 0, 0, 1)) %>%
+  mutate(DEAD = ifelse (LET_IS == 0, 0, 1))
+
 
 samp_ID = sample(1:nrow(data), 1700)
 
 data.edit = data %>%
   filter(ID %in% samp_ID) %>%
-  dplyr::select(no.missing.vars[k],   NA_KB  ,  S_AD_KBRIG) %>%
+  dplyr::select(DEAD,   NA_KB  ,  S_AD_KBRIG) %>%
   mutate(L1 = eval(parse(text = no.missing.vars[k])),  L2 =   NA_KB  , L3 = S_AD_KBRIG) %>%
   filter(!is.na(L1)) %>%
   dplyr::select(L1:L3) %>%
